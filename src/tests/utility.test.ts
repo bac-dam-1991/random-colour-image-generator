@@ -1,4 +1,8 @@
-import { generateNumberArrayBetween } from "../utility/utility";
+import IDimension from "../domain/interfaces/IDimension";
+import {
+	findDimensionsOf,
+	generateNumberArrayBetween,
+} from "../utility/utility";
 
 test("Number array generator to produce array exclusive of both bounds.", () => {
 	const numArray: number[] = generateNumberArrayBetween(1, 10, 1, "()");
@@ -34,4 +38,15 @@ test("Number array generator to produce array with step size larger than upper b
 	const numArray: number[] = generateNumberArrayBetween(1, 10, 20, "(]");
 
 	expect(numArray).toStrictEqual([]);
+});
+
+test("find all possible dimensions of 10.", () => {
+	const dims: IDimension[] = findDimensionsOf(10);
+
+	expect(dims).toStrictEqual([
+		{ width: 1, height: 10 },
+		{ width: 2, height: 5 },
+		{ width: 5, height: 2 },
+		{ width: 10, height: 1 },
+	]);
 });

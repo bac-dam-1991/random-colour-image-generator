@@ -1,4 +1,5 @@
 // Interfaces
+import IDimension from "../domain/interfaces/IDimension";
 import IRGB from "../domain/interfaces/IRGB";
 
 // Types
@@ -34,4 +35,24 @@ export const generateNumberArrayBetween = (
 	}
 
 	return array;
+};
+
+export const findDimensionsOf = (val: number): IDimension[] => {
+	const dimensions: IDimension[] = [];
+
+	for (let i = 1; i <= val; i++) {
+		const x: number = i;
+
+		let y: number = 0;
+
+		if (val % x !== 0) {
+			continue;
+		}
+
+		y = val / x;
+
+		dimensions.push({ width: x, height: y });
+	}
+
+	return dimensions;
 };
