@@ -56,3 +56,42 @@ export const findDimensionsOf = (val: number): IDimension[] => {
 
 	return dimensions;
 };
+
+export const generateRandomNumberArray = (
+	lowerBound: number,
+	upperBound: number,
+	size: number,
+	canContainDuplicate: boolean,
+	inclusivity: InclusivityType
+): number[] => {
+	const numberArray: number[] = [];
+
+	let min: number = lowerBound;
+	let max: number = upperBound;
+
+	if (inclusivity === "none" || inclusivity === "upperOnly") {
+		min += 1;
+	}
+
+	if (inclusivity === "none" || inclusivity === "lowerOnly") {
+		max -= 1;
+	}
+
+	while (numberArray.length < size) {
+		const n: number = Math.floor(Math.random() * max) + min;
+
+		if (!canContainDuplicate && numberArray.includes(n)) {
+			continue;
+		}
+
+		numberArray.push(n);
+	}
+
+	return numberArray;
+};
+
+export const byAscendingOrder = (a: number, b: number): number => {
+	if (a > b) return 1;
+	if (b > a) return -1;
+	return 0;
+};
