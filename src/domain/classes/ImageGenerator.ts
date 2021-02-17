@@ -37,10 +37,6 @@ export default class ImageGenerator {
 			channelRange
 		).shuffle();
 
-		console.log(shuffledRed);
-		console.log(shuffledGreen);
-		console.log(shuffledBlue);
-
 		return [];
 	}
 
