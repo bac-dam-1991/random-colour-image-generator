@@ -2,6 +2,7 @@
 import { generateNumberArrayBetween } from "../../utility/utility";
 import IDimension from "../interfaces/IDimension";
 import IPixel from "../interfaces/IPixel";
+import ColourChannel from "./ColourChannel";
 
 export default class ImageGenerator {
 	// static members
@@ -19,7 +20,8 @@ export default class ImageGenerator {
 	}
 
 	// public methods
-	public getRgbChannels(): number[][] {
+
+	public generate(): IPixel[] {
 		const channelRange: number[] = generateNumberArrayBetween(
 			0,
 			ImageGenerator.MAX_BIT,
@@ -27,15 +29,13 @@ export default class ImageGenerator {
 			"upperOnly"
 		);
 
-		const redChannel: number[] = [...channelRange];
-		const greenChannel: number[] = [...channelRange];
-		const blueChannel: number[] = [...channelRange];
-
-		return [redChannel, greenChannel, blueChannel];
-	}
-
-	public generate(): IPixel[] {
-		const [redChannel, greenChannel, blueChannel] = this.getRgbChannels();
+		const shuffledRed: number[] = new ColourChannel(channelRange).shuffle();
+		const shuffledGreen: number[] = new ColourChannel(
+			channelRange
+		).shuffle();
+		const shuffledBlue: number[] = new ColourChannel(
+			channelRange
+		).shuffle();
 
 		return [];
 	}
