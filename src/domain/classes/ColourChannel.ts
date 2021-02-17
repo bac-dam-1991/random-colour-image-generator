@@ -1,3 +1,5 @@
+import { generateRandomNumberArray } from "../../utility/utility";
+
 export default class ColourChannel {
 	private colourChannel: number[] = [];
 
@@ -7,7 +9,21 @@ export default class ColourChannel {
 
 	// public members
 	public shuffle(): number[] {
-		return this.colourChannel;
+		const orderIndex: number[] = generateRandomNumberArray(
+			0,
+			this.colourChannel.length,
+			this.colourChannel.length,
+			false,
+			"both"
+		);
+
+		const shuffledArray: number[] = [];
+
+		for (let i = 0; i < orderIndex.length; i++) {
+			shuffledArray.push(this.colourChannel[orderIndex[i]]);
+		}
+
+		return shuffledArray;
 	}
 
 	// getters and setters

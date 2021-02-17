@@ -2,6 +2,7 @@ import * as React from "react";
 
 // Css
 import styles from "../assets/css/App.module.css";
+import ImageGenerator from "../domain/classes/ImageGenerator";
 
 // Utility
 import { generateRgbString } from "../utility/utility";
@@ -33,6 +34,13 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = () => {
 			const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 			draw(context);
 		}
+
+		const imgGen = new ImageGenerator(
+			{ width: 256, height: 128 },
+			{ width: 1, height: 1 }
+		);
+
+		imgGen.generate();
 	}, []);
 
 	return (
