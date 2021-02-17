@@ -17,7 +17,7 @@ export const generateNumberArrayBetween = (
 ): number[] => {
 	let currentNumber: number = lowerBound;
 
-	if (inclusivity === "()" || inclusivity === "(]") {
+	if (inclusivity === "none" || inclusivity === "upperOnly") {
 		currentNumber += step;
 	}
 
@@ -26,7 +26,7 @@ export const generateNumberArrayBetween = (
 	while (currentNumber <= upperBound) {
 		if (
 			currentNumber === upperBound &&
-			(inclusivity === "()" || inclusivity === "[)")
+			(inclusivity === "none" || inclusivity === "lowerOnly")
 		) {
 			break;
 		}
