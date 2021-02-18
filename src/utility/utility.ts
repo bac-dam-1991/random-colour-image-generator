@@ -1,4 +1,10 @@
 // Interfaces
+import DimensionOfZeroError from "../domain/errors/DimensionOfZeroError";
+import LowerBoundGreaterThanUpperBoundError from "../domain/errors/LowerBoundGreaterThanUpperBoundError";
+import NegativeStepSizeError from "../domain/errors/NegativeStepSizeError";
+import StepSizeGreaterThanRangeError from "../domain/errors/StepSizeGreaterThanRangeError";
+import StepSizeGreaterThanUpperBoundError from "../domain/errors/StepSizeGreaterThanUpperBoundError";
+import StepSizeOfZeroError from "../domain/errors/StepSizeOfZeroError";
 import IDimension from "../domain/interfaces/IDimension";
 import IRGB from "../domain/interfaces/IRGB";
 
@@ -15,6 +21,14 @@ export const generateNumberArrayBetween = (
 	step: number,
 	inclusivity: InclusivityType
 ): number[] => {
+	if (step > upperBound) throw new StepSizeGreaterThanUpperBoundError();
+	if (step < 0) throw new NegativeStepSizeError();
+	if (lowerBound > upperBound)
+		throw new LowerBoundGreaterThanUpperBoundError(lowerBound, upperBound);
+	if (step > upperBound - lowerBound)
+		throw new StepSizeGreaterThanRangeError(lowerBound, upperBound, step);
+	if (step === 0) throw new StepSizeOfZeroError();
+
 	let currentNumber: number = lowerBound;
 
 	if (inclusivity === "none" || inclusivity === "upperOnly") {
@@ -38,6 +52,8 @@ export const generateNumberArrayBetween = (
 };
 
 export const findDimensionsOf = (val: number): IDimension[] => {
+	if (val <= 0) throw new DimensionOfZeroError();
+
 	const dimensions: IDimension[] = [];
 
 	for (let i = 1; i <= val; i++) {
@@ -64,6 +80,9 @@ export const generateRandomNumberArray = (
 	canContainDuplicate: boolean,
 	inclusivity: InclusivityType
 ): number[] => {
+	if (lowerBound > upperBound)
+		throw new LowerBoundGreaterThanUpperBoundError(lowerBound, upperBound);
+
 	const numberArray: number[] = [];
 
 	let min: number = lowerBound;
