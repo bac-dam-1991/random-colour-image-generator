@@ -19,6 +19,7 @@ const App: React.FC<AppProps> = () => {
 		height: 128,
 	});
 	const [pixelDim, setPixelDim] = React.useState<number>(1);
+	const [style, setStyle] = React.useState<string>("Default");
 
 	// Handlers
 	const handleImgDimChange = (val: IDimension): void => {
@@ -29,6 +30,10 @@ const App: React.FC<AppProps> = () => {
 		setPixelDim(val);
 	};
 
+	const handleStyleChange = (val: string): void => {
+		setStyle(val);
+	};
+
 	return (
 		<div className={styles.container}>
 			<Toolbar
@@ -36,9 +41,15 @@ const App: React.FC<AppProps> = () => {
 				imgDim={imgDim}
 				onPixelDimChange={handlePixelDimChange}
 				pixelDim={pixelDim}
+				stylePreset={style}
+				onStyleChange={handleStyleChange}
 			/>
 			<div className={styles.canvasContainer}>
-				<DrawingCanvas imgDim={imgDim} pixelDim={pixelDim} />
+				<DrawingCanvas
+					imgDim={imgDim}
+					pixelDim={pixelDim}
+					stylePreset={style}
+				/>
 			</div>
 		</div>
 	);

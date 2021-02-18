@@ -6,6 +6,9 @@ import styles from "../assets/css/App.module.css";
 // Classes
 import ImageGenerator from "../domain/classes/ImageGenerator";
 
+// Enums
+import StylePreset from "../domain/enums/StylePreset";
+
 // Interfaces
 import IDimension from "../domain/interfaces/IDimension";
 import IPixel from "../domain/interfaces/IPixel";
@@ -16,9 +19,14 @@ import { generateRgbString } from "../utility/utility";
 export interface DrawingCanvasProps {
 	imgDim: IDimension;
 	pixelDim: number;
+	stylePreset: string;
 }
 
-const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ imgDim, pixelDim }) => {
+const DrawingCanvas: React.FC<DrawingCanvasProps> = ({
+	imgDim,
+	pixelDim,
+	stylePreset,
+}) => {
 	// Hooks
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
@@ -36,10 +44,14 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ imgDim, pixelDim }) => {
 		if (canvas) {
 			const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-			const imgGen = new ImageGenerator(imgDim, {
-				width: pixelDim,
-				height: pixelDim,
-			});
+			const imgGen = new ImageGenerator(
+				imgDim,
+				{
+					width: pixelDim,
+					height: pixelDim,
+				},
+				stylePreset
+			);
 
 			const image: IPixel[] = imgGen.generate();
 
@@ -47,7 +59,7 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ imgDim, pixelDim }) => {
 				draw(context, image[i]);
 			}
 		}
-	}, [imgDim, pixelDim]);
+	}, [imgDim, pixelDim, stylePreset, draw]);
 
 	return (
 		<canvas

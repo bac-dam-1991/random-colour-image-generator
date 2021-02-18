@@ -1,4 +1,5 @@
 // Interfaces
+
 import { generateNumberArrayBetween } from "../../utility/utility";
 import ICoord from "../interfaces/ICoord";
 import IDimension from "../interfaces/IDimension";
@@ -15,11 +16,13 @@ export default class ImageGenerator {
 	private imgDim: IDimension;
 	private pixelDim: IDimension;
 	private imgSize: number;
+	private preset: string;
 
-	constructor(imgDim: IDimension, pixelDim: IDimension) {
+	constructor(imgDim: IDimension, pixelDim: IDimension, preset: string) {
 		this.imgDim = imgDim;
 		this.pixelDim = pixelDim;
 		this.imgSize = imgDim.width * imgDim.height;
+		this.preset = preset;
 	}
 
 	// static helper methods
@@ -83,10 +86,56 @@ export default class ImageGenerator {
 		return pixels;
 	}
 
+	public static stylise(spectrum: IRGB[], preset: string): IRGB[] {
+		switch (preset) {
+			case "AURORA_BOREALIS":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.red) return 1;
+					if (a.green < b.green || a.blue < b.blue) return -1;
+					return 0;
+				});
+			case "RED_SKY_AT_NIGHT":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.green) return 1;
+					if (a.green < b.green || a.blue < b.blue) return -1;
+					return 0;
+				});
+			case "RED_SEA_RISING":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.blue && a.red > a.green) return 1;
+					if (a.green > b.red || a.blue > b.red) return -1;
+					return 0;
+				});
+			case "PHOTON_SIGNALS":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.red) return 1;
+					if (a.green < b.blue && a.green > b.red) return -1;
+					return 0;
+				});
+			case "PULSING_DESIRE":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.red) return 1;
+					if (a.green > b.red && a.blue > b.red) return -1;
+					return 0;
+				});
+			case "UNDER_PRESSURE":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red < b.red) return 1;
+					if (a.green > b.blue && a.blue > b.red) return -1;
+					return 0;
+				});
+			default:
+				return spectrum;
+		}
+	}
+
 	public generate(): IPixel[] {
 		const coords: ICoord[] = this.generatePixelCoords();
 		const spectrum: IRGB[] = ImageGenerator.generateColourSpectrum();
-		return this.assignCoordToPixel(coords, spectrum);
+		return this.assignCoordToPixel(
+			coords,
+			ImageGenerator.stylise(spectrum, this.preset)
+		);
 	}
 
 	// getters and setters

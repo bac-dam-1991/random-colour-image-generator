@@ -6,11 +6,16 @@ import styles from "../assets/css/App.module.css";
 // Classes
 import ImageGenerator from "../domain/classes/ImageGenerator";
 
+// Enums
+import { StylePresets } from "../domain/enums/StylePreset";
+
 // Interfaces
 import IDimension from "../domain/interfaces/IDimension";
 
 // Utility
 import { findDimensionsOf } from "../utility/utility";
+
+// Components
 import Select from "./Select.Component";
 import Slider from "./Slider.Component";
 
@@ -19,6 +24,8 @@ export interface ToolbarProps {
 	imgDim: IDimension;
 	onPixelDimChange: (val: number) => void;
 	pixelDim: number;
+	stylePreset: string;
+	onStyleChange: (val: string) => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -26,6 +33,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
 	imgDim,
 	onPixelDimChange,
 	pixelDim,
+	stylePreset,
+	onStyleChange,
 }) => {
 	// States
 	const [dimensions, setDimensions] = React.useState<IDimension[]>([]);
@@ -53,6 +62,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
 		onPixelDimChange(parseInt(event.target.value));
 	};
 
+	const handleStyleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		onStyleChange(event.target.value);
+	};
+
 	return (
 		<div className={styles.toolbar}>
 			<Select
@@ -65,6 +78,19 @@ const Toolbar: React.FC<ToolbarProps> = ({
 						key={JSON.stringify(dim)}
 						value={JSON.stringify(dim)}
 					>{`${dim.width}px x ${dim.height}px`}</option>
+				))}
+			</Select>
+			<Select
+				value={stylePreset}
+				onChange={handleStyleChange}
+				label="Style presets"
+			>
+				{StylePresets.map((preset: string) => (
+					<option key={preset} value={preset}>
+						{preset
+							.replace(new RegExp("_", "g"), " ")
+							.toLowerCase()}
+					</option>
 				))}
 			</Select>
 			<Slider
