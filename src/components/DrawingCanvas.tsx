@@ -3,6 +3,7 @@ import * as React from "react";
 // Css
 import styles from "../assets/css/App.module.css";
 import ImageGenerator from "../domain/classes/ImageGenerator";
+import IPixel from "../domain/interfaces/IPixel";
 
 // Utility
 import { generateRgbString } from "../utility/utility";
@@ -13,42 +14,45 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = () => {
 	// States
 	const [height, setHeight] = React.useState<number>(128);
 	const [width, setWidth] = React.useState<number>(256);
-	const [pixelDim, setPixelDim] = React.useState<number>(50);
+	const [pixelDim, setPixelDim] = React.useState<number>(1);
 
 	// Hooks
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
-	const draw = React.useCallback((context: CanvasRenderingContext2D) => {
-		context.fillStyle = generateRgbString({
-			red: 125,
-			green: 124,
-			blue: 56,
-		});
-		context.fillRect(0, 0, pixelDim, pixelDim);
-	}, []);
+	const draw = React.useCallback(
+		(context: CanvasRenderingContext2D, { rgb, dim, coord }: IPixel) => {
+			context.fillStyle = generateRgbString(rgb);
+			context.fillRect(coord.x, coord.y, dim.width, dim.height);
+		},
+		[]
+	);
 
 	// Effects
 	React.useEffect(() => {
 		const canvas = canvasRef.current;
 		if (canvas) {
 			const context = canvas.getContext("2d") as CanvasRenderingContext2D;
-			draw(context);
+
+			const imgGen = new ImageGenerator(
+				{ width: width, height: height },
+				{ width: pixelDim, height: pixelDim }
+			);
+
+			const image: IPixel[] = imgGen.generate();
+
+			for (let i = 0; i < image.length; i++) {
+				draw(context, image[i]);
+			}
 		}
-
-		const imgGen = new ImageGenerator(
-			{ width: 256, height: 128 },
-			{ width: 1, height: 1 }
-		);
-
-		imgGen.generate();
 	}, []);
 
 	return (
 		<canvas
 			ref={canvasRef}
 			id="my-masterpiece"
+			height={height}
+			width={width}
 			className={styles.canvas}
-			style={{ height, width }}
 		/>
 	);
 };
