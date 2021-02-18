@@ -22,23 +22,8 @@ export default class ImageGenerator {
 		this.imgSize = imgDim.width * imgDim.height;
 	}
 
-	// public methods
-	public generatePixelCoords(): ICoord[] {
-		const coords: ICoord[] = [];
-
-		for (let i = 0; i < this.imgSize; i++) {
-			const currentCoord: ICoord = {
-				x: (i % this.imgDim.width) * this.pixelDim.width,
-				y: Math.floor(i / this.imgDim.width) * this.pixelDim.height,
-			};
-
-			coords.push(currentCoord);
-		}
-
-		return coords;
-	}
-
-	public generateColourSpectrum(): IRGB[] {
+	// static helper methods
+	public static generateColourSpectrum(): IRGB[] {
 		const spectrum: IRGB[] = [];
 
 		const channelRange: number[] = generateNumberArrayBetween(
@@ -65,6 +50,22 @@ export default class ImageGenerator {
 		return spectrum;
 	}
 
+	// public methods
+	public generatePixelCoords(): ICoord[] {
+		const coords: ICoord[] = [];
+
+		for (let i = 0; i < this.imgSize; i++) {
+			const currentCoord: ICoord = {
+				x: (i % this.imgDim.width) * this.pixelDim.width,
+				y: Math.floor(i / this.imgDim.width) * this.pixelDim.height,
+			};
+
+			coords.push(currentCoord);
+		}
+
+		return coords;
+	}
+
 	public assignCoordToPixel(coords: ICoord[], spectrum: IRGB[]): IPixel[] {
 		const pixels: IPixel[] = [];
 
@@ -84,7 +85,7 @@ export default class ImageGenerator {
 
 	public generate(): IPixel[] {
 		const coords: ICoord[] = this.generatePixelCoords();
-		const spectrum: IRGB[] = this.generateColourSpectrum();
+		const spectrum: IRGB[] = ImageGenerator.generateColourSpectrum();
 		return this.assignCoordToPixel(coords, spectrum);
 	}
 

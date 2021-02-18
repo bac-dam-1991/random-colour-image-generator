@@ -131,7 +131,7 @@ test("generate array of no repeating random numbers.", () => {
 
 test("random number generator to throw error when lower bound is greater than upper bound.", () => {
 	function func() {
-		generateRandomNumberArray(11, 10, 1, false, "both");
+		generateRandomNumberArray(12, 10, 1, false, "both");
 	}
 
 	expect(func).toThrowError(LowerBoundGreaterThanUpperBoundError);
