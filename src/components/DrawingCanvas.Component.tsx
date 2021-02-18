@@ -6,9 +6,6 @@ import styles from "../assets/css/App.module.css";
 // Classes
 import ImageGenerator from "../domain/classes/ImageGenerator";
 
-// Enums
-import StylePreset from "../domain/enums/StylePreset";
-
 // Interfaces
 import IDimension from "../domain/interfaces/IDimension";
 import IPixel from "../domain/interfaces/IPixel";
@@ -31,9 +28,12 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
 	const draw = React.useCallback(
-		(context: CanvasRenderingContext2D, { rgb, dim, coord }: IPixel) => {
+		(
+			context: CanvasRenderingContext2D,
+			{ rgb, dim, coordinate }: IPixel
+		) => {
 			context.fillStyle = generateRgbString(rgb);
-			context.fillRect(coord.x, coord.y, dim.width, dim.height);
+			context.fillRect(coordinate.x, coordinate.y, dim.width, dim.height);
 		},
 		[]
 	);

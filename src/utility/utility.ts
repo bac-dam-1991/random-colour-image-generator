@@ -1,5 +1,6 @@
 // Interfaces
 import DimensionOfZeroError from "../domain/errors/DimensionOfZeroError";
+import LowerBoundEqualsUpperBoundError from "../domain/errors/LowerBoundEqualsUpperBoundError";
 import LowerBoundGreaterThanUpperBoundError from "../domain/errors/LowerBoundGreaterThanUpperBoundError";
 import NegativeStepSizeError from "../domain/errors/NegativeStepSizeError";
 import StepSizeGreaterThanRangeError from "../domain/errors/StepSizeGreaterThanRangeError";
@@ -23,6 +24,7 @@ export const generateNumberArrayBetween = (
 ): number[] => {
 	if (step > upperBound) throw new StepSizeGreaterThanUpperBoundError();
 	if (step < 0) throw new NegativeStepSizeError();
+	if (lowerBound === upperBound) throw new LowerBoundEqualsUpperBoundError();
 	if (lowerBound > upperBound)
 		throw new LowerBoundGreaterThanUpperBoundError(lowerBound, upperBound);
 	if (step > upperBound - lowerBound)
@@ -82,6 +84,7 @@ export const generateRandomNumberArray = (
 ): number[] => {
 	if (lowerBound > upperBound)
 		throw new LowerBoundGreaterThanUpperBoundError(lowerBound, upperBound);
+	if (lowerBound === upperBound) throw new LowerBoundEqualsUpperBoundError();
 
 	const numberArray: number[] = [];
 

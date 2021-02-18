@@ -45,7 +45,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
 	}, []);
 
 	React.useEffect(() => {
-		setDimensions(findDimensions());
+		setDimensions(
+			findDimensions().filter(
+				(item: IDimension) => item.width > 16 && item.height > 16
+			)
+		);
 	}, [findDimensions]);
 
 	// Handlers

@@ -1,4 +1,5 @@
 import DimensionOfZeroError from "../domain/errors/DimensionOfZeroError";
+import LowerBoundEqualsUpperBoundError from "../domain/errors/LowerBoundEqualsUpperBoundError";
 import LowerBoundGreaterThanUpperBoundError from "../domain/errors/LowerBoundGreaterThanUpperBoundError";
 import NegativeStepSizeError from "../domain/errors/NegativeStepSizeError";
 import StepSizeGreaterThanRangeError from "../domain/errors/StepSizeGreaterThanRangeError";
@@ -96,6 +97,14 @@ test("Number generator to throw error when step size zero.", () => {
 	expect(func).toThrowError(StepSizeOfZeroError);
 });
 
+test("Number generator to throw error when lower and upper bound equal", () => {
+	function func() {
+		generateNumberArrayBetween(1, 1, 1, "none");
+	}
+
+	expect(func).toThrowError(LowerBoundEqualsUpperBoundError);
+});
+
 test("find all possible dimensions of 10.", () => {
 	const dims: IDimension[] = findDimensionsOf(10);
 
@@ -135,4 +144,12 @@ test("random number generator to throw error when lower bound is greater than up
 	}
 
 	expect(func).toThrowError(LowerBoundGreaterThanUpperBoundError);
+});
+
+test("random number generator to throw error when lower bound equals upper bound.", () => {
+	function func() {
+		generateRandomNumberArray(10, 10, 1, false, "both");
+	}
+
+	expect(func).toThrowError(LowerBoundEqualsUpperBoundError);
 });

@@ -1,6 +1,8 @@
 // Interfaces
 
 import { generateNumberArrayBetween } from "../../utility/utility";
+
+// Interfaces
 import ICoord from "../interfaces/ICoord";
 import IDimension from "../interfaces/IDimension";
 import IPixel from "../interfaces/IPixel";
@@ -26,6 +28,49 @@ export default class ImageGenerator {
 	}
 
 	// static helper methods
+	public static stylise(spectrum: IRGB[], preset: string): IRGB[] {
+		switch (preset) {
+			case "AURORA_BOREALIS":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.red) return 1;
+					if (a.green < b.green || a.blue < b.blue) return -1;
+					return 0;
+				});
+			case "RED_SKY_AT_NIGHT":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.green) return 1;
+					if (a.green < b.green || a.blue < b.blue) return -1;
+					return 0;
+				});
+			case "RED_SEA_RISING":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.blue && a.red > a.green) return 1;
+					if (a.green > b.red || a.blue > b.red) return -1;
+					return 0;
+				});
+			case "PHOTON_SIGNALS":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.red) return 1;
+					if (a.green < b.blue && a.green > b.red) return -1;
+					return 0;
+				});
+			case "PULSING_DESIRE":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red > b.red) return 1;
+					if (a.green > b.red && a.blue > b.red) return -1;
+					return 0;
+				});
+			case "UNDER_PRESSURE":
+				return spectrum.sort((a: IRGB, b: IRGB) => {
+					if (a.red < b.red) return 1;
+					if (a.green > b.blue && a.blue > b.red) return -1;
+					return 0;
+				});
+			default:
+				return spectrum;
+		}
+	}
+
 	public static generateColourSpectrum(): IRGB[] {
 		const spectrum: IRGB[] = [];
 
@@ -69,12 +114,15 @@ export default class ImageGenerator {
 		return coords;
 	}
 
-	public assignCoordToPixel(coords: ICoord[], spectrum: IRGB[]): IPixel[] {
+	public assignCoordToPixel(
+		coordinates: ICoord[],
+		spectrum: IRGB[]
+	): IPixel[] {
 		const pixels: IPixel[] = [];
 
 		for (let i = 0; i < this.imgSize; i++) {
 			pixels.push({
-				coord: coords[i],
+				coordinate: coordinates[i],
 				rgb: spectrum[i],
 				dim: {
 					width: this.pixelDim.width,
@@ -84,49 +132,6 @@ export default class ImageGenerator {
 		}
 
 		return pixels;
-	}
-
-	public static stylise(spectrum: IRGB[], preset: string): IRGB[] {
-		switch (preset) {
-			case "AURORA_BOREALIS":
-				return spectrum.sort((a: IRGB, b: IRGB) => {
-					if (a.red > b.red) return 1;
-					if (a.green < b.green || a.blue < b.blue) return -1;
-					return 0;
-				});
-			case "RED_SKY_AT_NIGHT":
-				return spectrum.sort((a: IRGB, b: IRGB) => {
-					if (a.red > b.green) return 1;
-					if (a.green < b.green || a.blue < b.blue) return -1;
-					return 0;
-				});
-			case "RED_SEA_RISING":
-				return spectrum.sort((a: IRGB, b: IRGB) => {
-					if (a.red > b.blue && a.red > a.green) return 1;
-					if (a.green > b.red || a.blue > b.red) return -1;
-					return 0;
-				});
-			case "PHOTON_SIGNALS":
-				return spectrum.sort((a: IRGB, b: IRGB) => {
-					if (a.red > b.red) return 1;
-					if (a.green < b.blue && a.green > b.red) return -1;
-					return 0;
-				});
-			case "PULSING_DESIRE":
-				return spectrum.sort((a: IRGB, b: IRGB) => {
-					if (a.red > b.red) return 1;
-					if (a.green > b.red && a.blue > b.red) return -1;
-					return 0;
-				});
-			case "UNDER_PRESSURE":
-				return spectrum.sort((a: IRGB, b: IRGB) => {
-					if (a.red < b.red) return 1;
-					if (a.green > b.blue && a.blue > b.red) return -1;
-					return 0;
-				});
-			default:
-				return spectrum;
-		}
 	}
 
 	public generate(): IPixel[] {
