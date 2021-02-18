@@ -47,14 +47,14 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ imgDim, pixelDim }) => {
 				draw(context, image[i]);
 			}
 		}
-	}, [imgDim]);
+	}, [imgDim, pixelDim]);
 
 	return (
 		<canvas
 			ref={canvasRef}
 			id="my-masterpiece"
-			height={imgDim.height}
-			width={imgDim.width}
+			height={imgDim.height * pixelDim}
+			width={imgDim.width * pixelDim}
 			className={styles.canvas}
 		/>
 	);

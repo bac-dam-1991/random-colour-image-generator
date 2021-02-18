@@ -21,10 +21,17 @@
 }
 
 .toolbar {
+	display: flex;
 	border: "1px solid #AEAEAE";
 	margin-bottom: 40px;
 }
 
-.slider {
-	appearance: "none";
+.label {
+	display: block;
+	position: absolute;
+	padding: 0 8px;
+	font-size: 14px;
+	background-color: white;
+	left: 8px;
+	color: #aaaaaa;
 }

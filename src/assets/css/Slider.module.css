@@ -1,0 +1,10 @@
+.slider {
+	appearance: "none";
+	margin-top: 24px;
+	height: 20px;
+}
+
+.sliderContainer {
+	position: relative;
+	height: 58px;
+}

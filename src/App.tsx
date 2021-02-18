@@ -25,9 +25,18 @@ const App: React.FC<AppProps> = () => {
 		setImgDim(val);
 	};
 
+	const handlePixelDimChange = (val: number): void => {
+		setPixelDim(val);
+	};
+
 	return (
 		<div className={styles.container}>
-			<Toolbar onImgDimChange={handleImgDimChange} imgDim={imgDim} />
+			<Toolbar
+				onImgDimChange={handleImgDimChange}
+				imgDim={imgDim}
+				onPixelDimChange={handlePixelDimChange}
+				pixelDim={pixelDim}
+			/>
 			<div className={styles.canvasContainer}>
 				<DrawingCanvas imgDim={imgDim} pixelDim={pixelDim} />
 			</div>

@@ -12,13 +12,21 @@ import IDimension from "../domain/interfaces/IDimension";
 // Utility
 import { findDimensionsOf } from "../utility/utility";
 import Select from "./Select.Component";
+import Slider from "./Slider.Component";
 
 export interface ToolbarProps {
 	onImgDimChange: (val: IDimension) => void;
 	imgDim: IDimension;
+	onPixelDimChange: (val: number) => void;
+	pixelDim: number;
 }
 
-const Toolbar: React.FC<ToolbarProps> = ({ onImgDimChange, imgDim }) => {
+const Toolbar: React.FC<ToolbarProps> = ({
+	onImgDimChange,
+	imgDim,
+	onPixelDimChange,
+	pixelDim,
+}) => {
 	// States
 	const [dimensions, setDimensions] = React.useState<IDimension[]>([]);
 
@@ -42,7 +50,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onImgDimChange, imgDim }) => {
 	};
 
 	const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(event.target.value);
+		onPixelDimChange(parseInt(event.target.value));
 	};
 
 	return (
@@ -59,14 +67,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ onImgDimChange, imgDim }) => {
 					>{`${dim.width}px x ${dim.height}px`}</option>
 				))}
 			</Select>
-			<input
-				type="range"
-				min="1"
-				max="100"
-				defaultValue="1"
+			<Slider
+				value={pixelDim}
+				label={`Zoom: ${pixelDim}.0x`}
 				onChange={handleSliderChange}
-				className={styles.slider}
-				id="pixelSlider"
 			/>
 		</div>
 	);
