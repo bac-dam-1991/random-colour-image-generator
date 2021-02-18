@@ -2,20 +2,23 @@ import * as React from "react";
 
 // Css
 import styles from "../assets/css/App.module.css";
+
+// Classes
 import ImageGenerator from "../domain/classes/ImageGenerator";
+
+// Interfaces
+import IDimension from "../domain/interfaces/IDimension";
 import IPixel from "../domain/interfaces/IPixel";
 
 // Utility
 import { generateRgbString } from "../utility/utility";
 
-export interface DrawingCanvasProps {}
+export interface DrawingCanvasProps {
+	imgDim: IDimension;
+	pixelDim: number;
+}
 
-const DrawingCanvas: React.FC<DrawingCanvasProps> = () => {
-	// States
-	const [height, setHeight] = React.useState<number>(128);
-	const [width, setWidth] = React.useState<number>(256);
-	const [pixelDim, setPixelDim] = React.useState<number>(1);
-
+const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ imgDim, pixelDim }) => {
 	// Hooks
 	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
@@ -33,10 +36,10 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = () => {
 		if (canvas) {
 			const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-			const imgGen = new ImageGenerator(
-				{ width: width, height: height },
-				{ width: pixelDim, height: pixelDim }
-			);
+			const imgGen = new ImageGenerator(imgDim, {
+				width: pixelDim,
+				height: pixelDim,
+			});
 
 			const image: IPixel[] = imgGen.generate();
 
@@ -44,14 +47,14 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = () => {
 				draw(context, image[i]);
 			}
 		}
-	}, []);
+	}, [imgDim]);
 
 	return (
 		<canvas
 			ref={canvasRef}
 			id="my-masterpiece"
-			height={height}
-			width={width}
+			height={imgDim.height}
+			width={imgDim.width}
 			className={styles.canvas}
 		/>
 	);
