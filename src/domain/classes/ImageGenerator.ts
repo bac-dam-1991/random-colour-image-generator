@@ -17,8 +17,8 @@ export default class ImageGenerator {
 	// private members
 	private imgDim: IDimension;
 	private pixelDim: IDimension;
-	private imgSize: number;
-	private preset: string;
+	private readonly imgSize: number;
+	private readonly preset: string;
 
 	constructor(imgDim: IDimension, pixelDim: IDimension, preset: string) {
 		this.imgDim = imgDim;
