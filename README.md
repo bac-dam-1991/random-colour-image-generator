@@ -25,12 +25,13 @@ Meanwhile the technical implementation in this case is the use of React Typescri
 
 1. First install NodeJs for your operating system. You can follow this link to do so: https://nodejs.org/en/download/
 2. Run `npm install` at root directory to reinstall all dependencies. This project uses no other dependencies beside those needed to run React Typescript and Jest.
-3. Run `npm start` to start the application.
+3. Run `npm start` to start the application on `localhost:3000`unless another program is using that port. The console will tell you which port the application is running on.
+4. Open your favourite browser and go to the provided address.
 
 ### How to use
 
 The application has two selects and 1 slider.
 
-1. The first select controls the dimensions of the canvas. This select shows some but not all the available dimensions, factor pairs of 32,768. The reason it does not include all possible factor pairs, is that the HTML canvas has a limited render area. Any dimensions that have a width or height less than 8px that is zoomed in, will create a rendering error.
+1. The first select controls the dimensions of the canvas. This select shows some but not all the available dimensions, factor pairs of 32,768. The reason it does not include all possible factor pairs is that the HTML canvas has a limited render area. Any dimensions that have a width or height less than 16px, that is zoomed in, will create a rendering error. A sad face will appear.
 2. The second select controls the style presets. This is named according to my artistic instuitions, if I possess any. The rearrangement of the pixels are done via various sorting method of the colour channel values.
 3. The slider is used to zoom in. The value is given to the canvas as dimension (width and height) or each "pixel".
